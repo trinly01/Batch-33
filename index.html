@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            background-color: pink;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello Batch 33!</h1>
+    <input id="input1" type="number"/>
+    <input id="input2" type="number"/>
+    <button onclick="addButtonTrigger()">Add</button>
+    <ul>
+        <li>asd</li>
+        <li>asd</li>
+        <li>asd</li>
+        <li>asd</li>
+        <li>23</li>
+    </ul>
+    <script>
+        function add (num1, num2) {
+            // other algo computation
+            return num1 + num2
+        }
+        function addButtonTrigger () {
+            const num1 = document.getElementById('input1').value
+            const num2 = document.getElementById('input2').value
+            alert(add(+num1, +num2))
+        }
+    </script>
+</body>
+</html>
