@@ -9,6 +9,7 @@
       <q-toolbar-title>Todo App {{ taskInput }}</q-toolbar-title>
 
       <q-btn flat round dense icon="whatshot" @click="$data.$log('test'), $router.push({ path: '/' })" />
+      <q-btn flat round dense icon="search" @click="find" />
     </q-toolbar>
     <div class="q-ma-md">
       <my-calc
@@ -25,7 +26,7 @@
             {{ i }} {{ item.desc }}
           </q-item-section>
           <q-item-section side>
-            <q-btn icon="delete" @click="remove(i)" round dense color="red" flat />
+            <q-btn icon="delete" @click="remove(item._id)" round dense color="red" flat />
           </q-item-section>
         </q-item>
         <!-- <q-item clickable v-ripple>
@@ -69,6 +70,12 @@
 
 <script>
 export default {
+  mounted () {
+    this.todosSrvc = this.$dbCon.wingsService('todos')
+    this.todosSrvc.on('dataChange', (todos) => {
+      this.todos = todos
+    }).init()
+  },
   data: () => ({
     $log: console.log,
     answer: 0,
@@ -103,21 +110,47 @@ export default {
     }
   },
   methods: {
+    async find () {
+      console.log(await this.todosSrvc.find({
+        query: {
+          $select: ['desc', '_id'],
+          isDone: true
+        }
+      }))
+    },
     save () {
-      this.todos.push({
+      // this.todos.push({
+      //   desc: this.taskInput,
+      //   isDone: false
+      // })
+      this.todosSrvc.create({
         desc: this.taskInput,
         isDone: false
       })
       this.taskInput = ''
     },
-    remove (i) {
-      this.todos.splice(i, 1)
+    async remove (i) {
+      // this.todos.splice(i, 1)
+      await this.todosSrvc.remove(i)
     },
     toggleStatus (task) {
-      task.isDone = !task.isDone
+      // task.isDone = !task.isDone
+      this.todosSrvc.patch(task._id, {
+        isDone: !task.isDone
+      })
     },
-    clearDone () {
-      this.todos = this.todos.filter(i => !i.isDone)
+    async clearDone () {
+      // await this.todosSrvc.remove(null, {
+      //   query: {
+      //     isDone: true
+      //   }
+      // })
+      // this.todos = this.todos.filter(i => !i.isDone)
+      this.todos.filter(async i => {
+        if (i.isDone) {
+          await this.remove(i._id)
+        }
+      })
     },
     generatePDF (mode) {
       const dd = {

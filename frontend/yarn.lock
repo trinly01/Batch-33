@@ -9823,6 +9823,11 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
+wings4@^4.4.4:
+  version "4.4.4"
+  resolved "https://registry.yarnpkg.com/wings4/-/wings4-4.4.4.tgz#a3f67ad268817ceee1a2c746a010f334ea1cab23"
+  integrity sha512-r3nhl+YD4xh8TE5z+iDBXUWFIBpCXeJdttAoUutqE/aUdfK2fQDma4TFSRcHGix3kU2WK3/y5Ue+SuemMFDYuQ==
+
 word-wrap@^1.2.3, word-wrap@~1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"

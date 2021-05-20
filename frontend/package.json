@@ -17,7 +17,8 @@
     "highcharts": "^9.1.0",
     "pdfmake": "^0.1.71",
     "quasar": "^1.0.0",
-    "vue-chartkick": "0.6.1"
+    "vue-chartkick": "0.6.1",
+    "wings4": "^4.4.4"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
