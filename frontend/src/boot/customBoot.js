@@ -11,9 +11,28 @@ import wings from 'wings4'
 // more info on params: https://quasar.dev/quasar-cli/boot-files
 export default async ({ app, router, Vue }) => {
   // something to do
-  Vue.prototype.$dbCon = wings('http://localhost:3030')
+  Vue.prototype.$dbCon = wings('https://sleepy-ridge-77568.herokuapp.com/')
+  Vue.prototype.$dbCon.authenticate()
 
   Vue.use(Chartkick.use(Highcharts))
   Vue.component('my-calc', MyCalc)
   Vue.prototype.$pdfMake = pdfMake
+
+  const $global = {
+    username: null
+  }
+
+  $global.install = () => {
+    Object.defineProperty(Vue.prototype, '$global', {
+      get () { return $global }
+    })
+  }
+
+  router.beforeEach((to, from, next) => {
+    // if (to.path === '/' && $global.username) return 1
+    if (to.path !== '/' && !$global.username) return next({ path: '/' })
+    next()
+  })
+
+  Vue.use($global)
 }

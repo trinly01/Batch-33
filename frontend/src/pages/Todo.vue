@@ -10,6 +10,7 @@
 
       <q-btn flat round dense icon="whatshot" @click="$data.$log('test'), $router.push({ path: '/' })" />
       <q-btn flat round dense icon="search" @click="find" />
+      <q-btn flat round dense label="logout" @click="$dbCon.logout()" />
     </q-toolbar>
     <div class="q-ma-md">
       <my-calc
@@ -71,12 +72,33 @@
 <script>
 export default {
   mounted () {
-    this.todosSrvc = this.$dbCon.wingsService('todos')
+    this.todosSrvc = this.$dbCon.wingsService('tasks')
     this.todosSrvc.on('dataChange', (todos) => {
+      console.log('changed', todos)
       this.todos = todos
     }).init()
+
+    this.$dbCon.on('login', u => {
+      console.log('login', u)
+      this.username = u.user.name
+      this.todosSrvc.reset({
+        query: {}
+      })
+      this.todosSrvc.init()
+    })
+
+    // this.$dbCon.on('logout', async u => {
+    //   console.log('logout', u)
+    //   this.username = ''
+    //   await this.todosSrvc.reset({
+    //     query: {}
+    //   })
+    //   this.todos = []
+    //   this.todosSrvc.init()
+    // })
   },
   data: () => ({
+    username: '',
     $log: console.log,
     answer: 0,
     status: 'All',

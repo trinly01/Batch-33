@@ -15,7 +15,9 @@
           Quasar App
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>Quasar v{{ $q.version }} &nbsp;</div>
+        <q-btn flat round v-if="!$global.username" dense label="login" @click="login" />
+        <q-btn flat round v-else dense :label="$global.username" @click="login" />
       </q-toolbar>
     </q-header>
 
@@ -101,6 +103,15 @@ export default {
     return {
       leftDrawerOpen: false,
       essentialLinks: linksData
+    }
+  },
+  methods: {
+    login () {
+      this.$dbCon.authenticate({
+        email: 'pogi@gmail.com',
+        password: 'pogi@gmail.com',
+        strategy: 'local'
+      })
     }
   }
 }
